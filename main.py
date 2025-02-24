@@ -46,7 +46,7 @@ def train_model(model, dataloader, num_epochs):
     for epoch in range(num_epochs):
         total_loss = 0
         for inputs, labels in dataloader:
-            optimizer.zero_grad()
+            optimizer.zero_grad()#
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             loss.backward()
