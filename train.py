@@ -5,7 +5,11 @@ import torch.optim as optim
 from model import SimpleNet
 from data_loader import get_dataloader
 
+device=torch.device('cuda'if torch.cuda.is_available()else 'cpu')#if the gpu is available then we are using the gpu
+print(f"using the device{device}")
+
 def train_model(model, dataloader,num_epochs=10, lr=0.01):
+    model.to(device)# this is hepful to movse the model to the gpu
     criterion = nn.MSELoss() # mean squared error loss for the regression proble, if we have the classification probolem we will use the cross entropy loss function
     optimizer= optim.SGD(model.parameters(), lr=lr) # the parameters are the weights and biases of the model
     
@@ -36,7 +40,7 @@ def save_model(model, filename='model.pth'):
 
 if __name__=="__main__":#
     dataloader=get_dataloader(csv_file='dataset.csv',  batch_size=32)
-    model=SimpleNet()
+    model=SimpleNet().to(device)
     
     train_model(model, dataloader,num_epochs=10, lr=0.01)
     
